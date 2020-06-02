@@ -1,0 +1,1525 @@
+﻿<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<html>
+<head>
+</head>
+<body>
+ <canvas id="c" width="960" height="480">
+ </canvas>
+ <script type="text/javascript">
+  //Init
+   var gameScreen = document.getElementById("c").getContext('2d');
+   var boxSize = 32;
+   var bs = boxSize/16;
+   var maxh = 15;
+   var maxl = 30;
+   var Screen = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
+   var starter = false;
+  //
+  var x1 = 6;
+  var x2 = 25;
+  var y1 = maxh-1;
+  var y2 = maxh-1;
+  var right1 = true;
+  var right2 = false;
+  var upCount1 = 0;
+  var upCount2 = 0;
+  var armedCount1 = 0;
+  var armedCount2 = 0;
+  var life1 = 100;
+  var life2 = 100;
+  var score1 = 0;
+  var score2 = 0;
+  var getkey = false;
+  var endCount = 0;
+  var p1win = false;
+  var p2win = false;
+  var sh1Count = 0;
+  var sh2Count = 0;
+  var sh1ready = false;
+  var sh2ready = false;
+  var sh1x = 0;
+  var sh2x = 0;
+  var sh1y = 0;
+  var sh2y = 0;
+  var sh1launched = false;
+  var sh2launched = false;
+  var sh1launchStarter = false;
+  var sh2launchStarter = false;
+  var crouchCount1 = 0;
+  var crouchCount2 = 0;
+  init();
+  document.addEventListener('keydown',function(event){
+	  var a = event.keyCode;
+	  if(getkey || endCount != 0){
+		  if(getkey && a != 0){
+			  location.reload();
+		  }
+	  }else{
+		  switch(a){
+			  case 81: //q
+				  if(x1 != 1 && sh1Count == 0 && !(sh1launched)){
+					  x1--;
+					  right1 = false;
+				  }
+			  break;
+			  case 68: //d
+		 		  if(x1 != maxl && sh1Count == 0 && !(sh1launched)){
+					  x1++;
+					  right1 = true;
+				  }
+			  break;
+			  case 90: //z
+				  if(sh1Count == 0 && !(sh1launched)){
+					  if(crouchCount1 != 0){
+						  crouchCount1 = 0;
+					  }else if(y1 == maxh-1){
+						  upCount1 = 50;
+					  }
+				  }
+			  break;
+			  case 78: //n
+				  if(sh1Count == 0 && !(sh1launched)){
+					  armedCount1 = 20;
+				  }
+			  break;
+			  case 83: //s
+				  if(sh1Count == 0 && !(sh1launched)){
+					  if(upCount1 != 0){
+						  upCount1 = 0;
+					  }else if(crouchCount1 == 0){
+						  crouchCount1 = 50;
+					  }
+				  }
+			  break;
+			  case 66: //b
+				  if(sh1Count == 0 && !(sh1ready) && !(sh1launched)){
+					  sh1Count = 200;
+				  }
+				  if(sh1ready){
+					  sh1launched = true;
+				  }
+			  break;
+			  case 37: //<-
+		 		  if(x2 != 1 && sh2Count == 0 && !(sh2launched)){
+					  x2--;
+					  right2 = false;
+				  }
+			  break;
+			  case 39:
+		 		  if(x2 != maxl && sh2Count == 0 && !(sh2launched)){
+					  x2++;
+					  right2 = true;
+				  }
+			  break;
+			  case 38: //->
+				  if(sh2Count == 0 && !(sh2launched)){
+					  if(crouchCount2 != 0){
+						  crouchCount2 = 0;
+					  }else if(y2 == maxh-1){
+						  upCount2 = 50;
+					  }
+				  }
+			  break;
+			  case 79: //o
+				  if(sh2Count == 0 && !(sh2launched)){
+					  armedCount2 = 20;
+				  }
+			  break;
+			  case 80: //p
+				  if(sh2Count == 0 && !(sh2launched)){
+					  if(upCount2 != 0){
+						  upCount2 = 0;
+					  }else if(crouchCount2 == 0){
+						  crouchCount2 = 50;
+					  }
+				  }
+			  break;
+			  case 16: //shift
+				  if(sh2Count == 0 && !(sh2ready) && !(sh2launched)){
+					  sh2Count = 200;
+				  }
+				  if(sh2ready){
+					  sh2launched = true;
+				  }
+			  break;
+		  }
+	  }
+  });
+  function init(){
+	  life1 = 100;
+	  life2 = 100;
+	  x1 = 6;
+	  x2 = 25;
+	  y1 = maxh-1;
+	  y2 = maxh-1;
+	  right1 = true;
+	  right2 = false;
+	  upCount1 = 0;
+	  upCount2 = 0;
+	  armedCount1 = 0;
+	  armedCount2 = 0;
+	  life1 = 100;
+	  life2 = 100;
+	  getKey = false
+	  sh1Count = 0;
+	  sh2Count = 0;
+	  sh1ready = false;
+	  sh2ready = false;
+	  sh1launched = false;
+	  sh2launched = false;
+	  sh1launchStarter = false;
+	  sh2launchStarter = false;
+	  crouchCount1 = 0;
+	  crouchCount2 = 0;
+	  if(!(starter)){
+		  score1 = 0;
+		  score2 = 0;
+		  p1win = false;
+		  p2win = false;
+		  starter = true;
+	  }
+  }
+  setInterval(refresh, 10);
+  function refresh(){
+	   clear();
+	   if(right1){
+		   if(crouchCount1 != 0){
+			   d2D(x1,y1,'(');
+		    }else{
+			   d2D(x1,y1-1,'(');
+			   d2D(x1,y1,'bbr');
+			}
+		}else{
+			if(crouchCount1 != 0){
+			   d2D(x1,y1,')');
+		   }else{
+			   d2D(x1,y1-1,')');
+			   d2D(x1,y1,'bbl');
+		   }
+	   }
+	   if(right2){
+	   	   if(crouchCount2 != 0){
+			   d2D(x2,y2,'(');
+		   }else{
+			   d2D(x2,y2-1,'(');
+			   d2D(x2,y2,'rbr');
+		   }
+	   }else{
+		   if(crouchCount2 != 0){
+			   d2D(x2,y2,')');
+		   }else{
+			   d2D(x2,y2-1,')');
+			   d2D(x2,y2,'rbl');
+		   }
+	   }
+	   if(upCount1 != 0){
+		   upCount1--;
+		   y1 = maxh-2;
+	   }else{
+		   y1 = maxh-1;
+	   }
+	   if(upCount2 != 0){
+		   upCount2--;
+		   y2 = maxh-2;
+	   }else{
+		   y2 = maxh-1;
+	   }
+	   if(armedCount1 != 0){
+		   armedCount1--;
+		   if(right1){
+		   	   d2D(x1+1,y1,'bsr');
+			   if(x1+1 == x2 && (y1 == y2 || (y1 == y2-1 && crouchCount2 == 0))){
+				   life2--;
+			   }
+		   }else{
+		   	   d2D(x1-1,y1,'bsl');
+			   if(x1-1 == x2 && (y1 == y2 || (y1 == y2-1 && crouchCount2 == 0))){
+				   life2--;
+			   }
+		   }
+	   }
+	   if(armedCount2 != 0){
+		   armedCount2--;
+		   if(right2){
+		   	   d2D(x2+1,y2,'rsr');
+			   if(x2+1 == x1 && (y2 == y1 || (y2 == y1-1 && crouchCount1 == 0))){
+				   life1--;
+			   }
+		   }else{
+			   d2D(x2-1,y2,'rsl');
+			   if(x2-1 == x1 && (y2 == y1 || (y2 == y1-1 && crouchCount1 == 0))){
+				   life1--;
+			   }
+		   }
+	   }
+	   if(life2 == 0){
+		   score1++;
+		   init();
+	   }
+	   if(life1 == 0){
+		   score2++;
+		   init();
+	   }
+	   d2D(1,3,'l');
+	   d2D(29,3,'l');
+	   d2D(2,3,(life1/20).toString());
+	   d2D(30,3,(life2/20).toString());
+	   var s1 = score1.toString();
+	   var b = s1.replace(/\d/,"b$&");
+	   d2D(1,1,b);
+	   var s2 = score2.toString();
+	   var b = s2.replace(/\d/,"r$&");
+	   d2D(30,1,b);
+	   if(score1 == 10 && !(p1win)){
+		   p1win = true;
+		   endCount = 600;
+	   }
+	   if(score2 == 10 && !(p2win)){
+		   p2win = true;
+		   endCount = 600;
+	   }
+	   if(endCount != 0){
+		   endCount--;
+		   if(p1win){
+			   d2D(1,1,'b1');
+			   d2D(2,1,'b0');
+			   d2D(10,5,'bp');
+			   d2D(11,5,'b1');
+			   d2D(12,5,'bw');
+			   d2D(13,5,'bin');
+		   }
+		   if(p2win){
+			   d2D(29,1,'r1');
+			   d2D(30,1,'r0');
+			   d2D(10,5,'rp');
+			   d2D(11,5,'r2');
+			   d2D(12,5,'rw');
+			   d2D(13,5,'rin');
+		   }
+		   if(endCount == 0){
+			   getkey = true;
+		   }
+	   }
+	   if(sh1Count != 0){
+		   sh1Count--;
+		   var sh = 'shCL1';
+		   if(sh1Count < 160){
+			   sh = 'shCL2';
+		   }
+		   if(sh1Count < 120){
+			   sh = 'shCL3';
+		   }
+		   if(sh1Count < 80){
+			   sh = 'shCL4';
+		   }
+		   if(sh1Count < 40){
+			   sh = 'shCL5';
+		   }
+		   if(right1){
+		   	   sh += 'r';
+			   d2D(x1+1,y1,sh);
+		   }else{
+			   sh += 'l';
+			   d2D(x1-1,y1,sh);
+		   }
+		   if(sh1Count == 0){
+			   sh1ready = true;
+		   }
+	   }
+	   if(sh2Count != 0){
+		   sh2Count--;
+		   var sh = 'shCL1';
+		   if(sh2Count < 160){
+			   sh = 'shCL2';
+		   }
+		   if(sh2Count < 120){
+			   sh = 'shCL3';
+		   }
+		   if(sh2Count < 80){
+			   sh = 'shCL4';
+		   }
+		   if(sh2Count < 40){
+			   sh = 'shCL5';
+		   }
+		   if(right2){
+		   	   sh += 'r';
+			   d2D(x2+1,y2,sh);
+		   }else{
+			   sh += 'l';
+			   d2D(x2-1,y2,sh);
+		   }
+		   if(sh2Count == 0){
+			   sh2ready = true;
+		   }
+	   }
+	   if(sh1ready){
+		   if(right1){
+			   d2D(x1+1,y1,'shrr');
+		   }else{
+			   d2D(x1-1,y1,'shrl');
+		   }
+	   }
+	   if(sh2ready){
+		   if(right2){
+		   	   d2D(x2+1,y2,'shrr');
+		   }else{
+			   d2D(x2-1,y2,'shrl');
+		   }
+	   }
+	   if(sh1launched){
+			   if(!(sh1launchStarter)){
+				   sh1x = x1;
+				   sh1y = y1;
+				   sh1ready = false;
+				   sh1launchStarter = true;
+			   }
+			   if(right1){
+				   sh1x++;
+				   if(sh1x == x2 && (sh1y == y2 || (y1 == y2-1 && crouchCount2 == 0))){
+					   life2 -= 20;
+				   }
+				   d2D(sh1x,sh1y,'shrr');
+			   }else{
+				   sh1x--;
+				   if(sh1x == x2 && (sh1y == y2 || (y1 == y2-1 && crouchCount2 == 0))){
+					   life2 -= 20;
+				   }
+				   d2D(sh1x,sh1y,'shrl');
+			   }
+			   if(sh1x == maxl || sh1x == 0){
+				   sh1launched = false;
+				   sh1launchStarter = false;
+			   }
+	   }
+	   if(sh2launched){
+			   if(!(sh2launchStarter)){
+				   sh2x = x2;
+				   sh2y = y2;
+				   sh2ready = false;
+				   sh2launchStarter = true;
+			   }
+			   if(right2){
+			   	   sh2x++;
+				   if(sh2x == x1 && (sh2y == y1 || (y2 == y1-1 && crouchCount1 == 0))){
+					   life1 -= 20;
+				   }
+				   d2D(sh2x,sh2y,'shrr');
+			   }else{
+				   sh2x--;
+				   if(sh2x == x1 && (sh2y == y1 || (y2 == y1-1 && crouchCount1 == 0))){
+					   life1 -= 20;
+				   }
+				   d2D(sh2x,sh2y,'shrl');
+			   }
+			   if(sh2x == maxl || sh2x == 0){
+				   sh2launched = false;
+				   sh2launchStarter = false;
+			   }
+	   }
+	   if(getkey){
+		  if(p1win){
+			  d2D(1,1,'b1');
+			  d2D(2,1,'b0');
+		  }else{
+			  d2D(29,1,'r1');
+			  d2D(30,1,'r0');
+		  }
+	   }
+	   if(crouchCount1 != 0){
+		   crouchCount1--;
+	   }
+	   if(crouchCount2 != 0){
+		   crouchCount2--;
+	   }
+	   show();
+	  //
+  }
+  function d2D(x, y, element){
+	  --x;	--y;
+	  Screen[y][x] = element;
+  }
+  function clear(){
+	  for(var cntY = 0; cntY < maxh; cntY++){
+		  for(var cntX  = 0; cntX < maxl; cntX++){
+			  delete Screen[cntY][cntX];
+			  Screen[cntY][cntX] = '_';
+		  }
+	  }
+	  for(var i = 0; i <= maxl; i++){
+		  d2D(i,maxh,'g');
+	  }
+  }
+  function show(){
+	  for(var cntY = 0; cntY < maxh; cntY++){
+		  for(var cntX  = 0; cntX < maxl; cntX++){
+			  getTextures(cntX*boxSize,cntY*boxSize,Screen[cntY][cntX]);
+		  }
+	  }
+  }
+  function getTextures(cx, cy, element){
+	  switch(element){
+ 		  case '_':
+ 			  //DrawAir
+  	 		   setColor('sky');
+  	 		   draw(cx,cy,16,16);
+ 			  //
+		  break;
+		  case 'g':
+ 			  //DrawGrass
+  	 		   setColor('dirt');
+  	 		   draw(cx,cy,16,16);
+			   setColor('green');
+  	 		   draw(cx,cy,10,4);
+			   draw(cx+bs*10,cy,3,2);
+			   draw(cx+bs*13,cy,3,4);
+			   draw(cx+bs*10,cy+bs*2,1,1);
+			   draw(cx+bs,cy+bs*4,2,1);
+			   draw(cx+bs*2,cy+bs*5,1,1);
+			   draw(cx+bs*5,cy+bs*4,3,1);
+			   draw(cx+bs*6,cy+bs*5,2,1);
+			   draw(cx+bs*6,cy+bs*6,1,1);
+			   draw(cx+bs*15,cy+bs*4,1,1);
+ 			  //
+		  break;
+		  case ')':
+ 			  //DrawHeadSeeingLeft
+  	 		   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('black');
+  	 		   draw(cx+bs*2,cy+bs*2,12,12);
+ 			   draw(cx+bs*7,cy+bs*14,2,2);
+			   setColor('white');
+			   draw(cx+bs*3,cy+bs*4,2,3);
+			   setColor('sky');
+			   draw(cx+bs*2,cy+bs*2,1,1);
+			   draw(cx+bs*13,cy+bs*2,1,1);
+			   draw(cx+bs*2,cy+bs*10,1,4);
+			   draw(cx+bs*3,cy+bs*12,1,2);
+			   draw(cx+bs*4,cy+bs*13,1,1);
+			   draw(cx+bs*13,cy+bs*12,1,2);
+ 			  //
+		  break;
+		  case '(':
+			  //DrawHeadSeeingRight
+			   setColor('sky');
+  	 		   draw(cx,cy,16,16);
+			   setColor('black');
+  	 		   draw(cx+bs*2,cy+bs*2,12,12);
+ 			   draw(cx+bs*7,cy+bs*14,2,2);
+			   setColor('white');
+			   draw(cx+bs*11,cy+bs*4,2,3);
+			   setColor('sky');
+			   draw(cx+bs*13,cy+bs*2,1,1);
+			   draw(cx+bs*2,cy+bs*2,1,1);
+			   draw(cx+bs*13,cy+bs*10,1,4);
+			   draw(cx+bs*12,cy+bs*12,1,2);
+			   draw(cx+bs*11,cy+bs*13,1,1);
+			   draw(cx+bs*2,cy+bs*12,1,2);
+			  //
+		  break;
+		  case 'bbl':
+ 			  //DrawBlueBodySeeingLeft
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('black');
+			   draw(cx+bs*7,cy,2,10);
+			   draw(cx,cy+bs*4,3,3);
+			   draw(cx+bs*3,cy+bs*4,10,2);
+			   draw(cx+bs*13,cy+bs*4,3,3);
+			   draw(cx+bs*6,cy+bs*10,4,2);
+			   draw(cx+bs*5,cy+bs*11,2,3);
+			   draw(cx+bs*9,cy+bs*11,2,3);
+			   draw(cx+bs*4,cy+bs*13,2,3);
+			   draw(cx+bs*10,cy+bs*13,2,3);
+			   setColor('blue');
+			   draw(cx+bs*10,cy+bs*7,1,1);
+			   draw(cx+bs*10,cy+bs*9,1,1);
+			   draw(cx+bs*7,cy+bs*8,3,1);
+ 			  //
+		  break;
+		  case 'bbr':
+ 			  //DrawBlueBodySeeingRight
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('black');
+			   draw(cx+bs*7,cy,2,10);
+			   draw(cx,cy+bs*4,3,3);
+			   draw(cx+bs*3,cy+bs*4,10,2);
+			   draw(cx+bs*13,cy+bs*4,3,3);
+			   draw(cx+bs*6,cy+bs*10,4,2);
+			   draw(cx+bs*5,cy+bs*11,2,3);
+			   draw(cx+bs*9,cy+bs*11,2,3);
+			   draw(cx+bs*4,cy+bs*13,2,3);
+			   draw(cx+bs*10,cy+bs*13,2,3);
+			   setColor('blue');
+			   draw(cx+bs*5,cy+bs*7,1,1);
+			   draw(cx+bs*5,cy+bs*9,1,1);
+			   draw(cx+bs*6,cy+bs*8,3,1);
+ 			  //
+		  break;
+		  case 'rbl':
+ 			  //DrawRedBodySeeingLeft
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('black');
+			   draw(cx+bs*7,cy,2,10);
+			   draw(cx,cy+bs*4,3,3);
+			   draw(cx+bs*3,cy+bs*4,10,2);
+			   draw(cx+bs*13,cy+bs*4,3,3);
+			   draw(cx+bs*6,cy+bs*10,4,2);
+			   draw(cx+bs*5,cy+bs*11,2,3);
+			   draw(cx+bs*9,cy+bs*11,2,3);
+			   draw(cx+bs*4,cy+bs*13,2,3);
+			   draw(cx+bs*10,cy+bs*13,2,3);
+			   setColor('red');
+			   draw(cx+bs*10,cy+bs*7,1,1);
+			   draw(cx+bs*10,cy+bs*9,1,1);
+			   draw(cx+bs*7,cy+bs*8,3,1);
+ 			  //
+		  break;
+		  case 'rbr':
+ 			  //DrawRedBodySeeingRight
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('black');
+			   draw(cx+bs*7,cy,2,10);
+			   draw(cx,cy+bs*4,3,3);
+			   draw(cx+bs*3,cy+bs*4,10,2);
+			   draw(cx+bs*13,cy+bs*4,3,3);
+			   draw(cx+bs*6,cy+bs*10,4,2);
+			   draw(cx+bs*5,cy+bs*11,2,3);
+			   draw(cx+bs*9,cy+bs*11,2,3);
+			   draw(cx+bs*4,cy+bs*13,2,3);
+			   draw(cx+bs*10,cy+bs*13,2,3);
+			   setColor('red');
+			   draw(cx+bs*5,cy+bs*7,1,1);
+			   draw(cx+bs*5,cy+bs*9,1,1);
+			   draw(cx+bs*6,cy+bs*8,3,1);
+ 			  //
+		  break;
+		  case 'bsl':
+			  //DrawBlueSwordSeeingLeft
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('black');
+			   draw(cx+bs*15,cy+bs*5,1,1);
+			   draw(cx+bs*14,cy+bs*4,1,1);
+			   draw(cx+bs*13,cy+bs*3,1,4);
+			   setColor('blue');
+			   draw(cx+bs*15,cy+bs*4,1,1);
+			   draw(cx+bs*14,cy+bs*5,1,1);
+			   setColor('white');
+			   draw(cx+bs,cy+bs*4,12,2);
+			  //
+		  break;
+		  case 'bsr':
+			  //DrawBlueSwordSeeingRight
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('black');
+			   draw(cx,cy+bs*4,1,1);
+			   draw(cx+bs,cy+bs*5,1,1);
+			   draw(cx+bs*2,cy+bs*3,1,4);
+			   setColor('blue');
+			   draw(cx,cy+bs*5,1,1);
+			   draw(cx+bs,cy+bs*4,1,1);
+			   setColor('white');
+			   draw(cx+bs*3,cy+bs*4,12,2);
+			  //
+		  break;
+		  case 'rsl':
+			  //DrawRedSwordSeeingLeft
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('black');
+			   draw(cx+bs*15,cy+bs*5,1,1);
+			   draw(cx+bs*14,cy+bs*4,1,1);
+			   draw(cx+bs*13,cy+bs*3,1,4);
+			   setColor('red');
+			   draw(cx+bs*15,cy+bs*4,1,1);
+			   draw(cx+bs*14,cy+bs*5,1,1);
+			   setColor('white');
+			   draw(cx+bs,cy+bs*4,12,2);
+			  //
+		  break;
+		  case 'rsr':
+			  //DrawRedSwordSeeingRight
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('black');
+			   draw(cx,cy+bs*4,1,1);
+			   draw(cx+bs,cy+bs*5,1,1);
+			   draw(cx+bs*2,cy+bs*3,1,4);
+			   setColor('red');
+			   draw(cx,cy+bs*5,1,1);
+			   draw(cx+bs,cy+bs*4,1,1);
+			   setColor('white');
+			   draw(cx+bs*3,cy+bs*4,12,2);
+			  //
+		  break;
+		  case 'l':
+			  //DrawLife
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('black');
+			   draw(cx+bs,cy+bs*4,1,1);
+			   draw(cx+bs*2,cy+bs*4,1,8);
+			   draw(cx+bs*4,cy+bs*6,1,1);
+			   draw(cx+bs*4,cy+bs*8,1,4);
+			   draw(cx+bs*7,cy+bs*6,1,6);
+			   draw(cx+bs*6,cy+bs*7,3,1);
+			   draw(cx+bs*8,cy+bs*5,2,1);
+			   draw(cx+bs*10,cy+bs*8,1,3);
+			   draw(cx+bs*11,cy+bs*7,2,1);
+			   draw(cx+bs*11,cy+bs*9,2,1);
+			   draw(cx+bs*11,cy+bs*11,2,1);
+			   draw(cx+bs*13,cy+bs*8,1,1);
+			   draw(cx+bs*15,cy+bs*5,1,2);
+			   draw(cx+bs*15,cy+bs*9,1,2);
+			  //
+		  break;
+		  case '1':
+			  //Draw1
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('black');
+			   draw(cx+bs*4,cy+bs*3,2,2);
+			   draw(cx+bs*5,cy+bs*2,2,2);
+			   draw(cx+bs*6,cy+bs,3,3);
+			   draw(cx+bs*7,cy+bs*4,2,9);
+			   draw(cx+bs*4,cy+bs*13,8,2);
+			   draw(cx,cy+bs*5,1,2);
+			   draw(cx,cy+bs*9,1,2);
+			  //
+		  break;
+		  case '2':
+			  //Draw2
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('black');
+			   draw(cx+bs*3,cy+bs*3,2,2);
+			   draw(cx+bs*4,cy+bs*2,2,2);
+			   draw(cx+bs*5,cy+bs,6,2);
+			   draw(cx+bs*10,cy+bs*2,2,5);
+			   draw(cx+bs*9,cy+bs*6,2,2);
+			   draw(cx+bs*8,cy+bs*7,2,2);
+			   draw(cx+bs*7,cy+bs*8,2,2);
+			   draw(cx+bs*6,cy+bs*9,2,2);
+			   draw(cx+bs*5,cy+bs*10,2,2);
+			   draw(cx+bs*4,cy+bs*11,2,2);
+			   draw(cx+bs*3,cy+bs*12,1,1);
+			   draw(cx+bs*3,cy+bs*13,10,2);
+			   draw(cx,cy+bs*5,1,2);
+			   draw(cx,cy+bs*9,1,2);
+			  //
+		  break;
+		  case '3':
+			  //Draw3
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('black');
+			   draw(cx+bs*3,cy+bs*3,2,2);
+			   draw(cx+bs*4,cy+bs*2,2,2);
+			   draw(cx+bs*5,cy+bs,5,2);
+			   draw(cx+bs*9,cy+bs*2,2,2);
+			   draw(cx+bs*10,cy+bs*3,2,4);
+			   draw(cx+bs*9,cy+bs*6,2,4);
+			   draw(cx+bs*6,cy+bs*7,3,2);
+			   draw(cx+bs*10,cy+bs*9,2,4);
+			   draw(cx+bs*9,cy+bs*12,2,2);
+			   draw(cx+bs*5,cy+bs*13,5,2);
+			   draw(cx+bs*4,cy+bs*12,2,2);
+			   draw(cx+bs*3,cy+bs*11,2,2);
+			   draw(cx,cy+bs*5,1,2);
+			   draw(cx,cy+bs*9,1,2);
+			  //
+		  break;
+		  case '4':
+			  //Draw4
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('black');
+			   draw(cx+bs*8,cy+bs,3,3);
+			   draw(cx+bs*7,cy+bs*2,1,2);
+			   draw(cx+bs*6,cy+bs*4,2,2);
+			   draw(cx+bs*5,cy+bs*6,2,2);
+			   draw(cx+bs*4,cy+bs*8,2,2);
+			   draw(cx+bs*3,cy+bs*10,2,1);
+			   draw(cx+bs*3,cy+bs*11,10,2);
+			   draw(cx+bs*9,cy+bs*4,2,11);
+			   draw(cx,cy+bs*5,1,2);
+			   draw(cx,cy+bs*9,1,2);
+			  //
+		  break;
+		  case '5':
+			  //Draw5
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('black');
+			   draw(cx+bs*3,cy+bs*11,2,2);
+			   draw(cx+bs*4,cy+bs*12,2,2);
+			   draw(cx+bs*5,cy+bs*13,5,2);
+			   draw(cx+bs*9,cy+bs*12,2,2);
+			   draw(cx+bs*10,cy+bs*9,2,4);
+			   draw(cx+bs*9,cy+bs*8,2,2);
+			   draw(cx+bs*3,cy+bs*7,7,2);
+			   draw(cx+bs*3,cy+bs*3,2,4);
+			   draw(cx+bs*3,cy+bs,9,2);
+			   draw(cx,cy+bs*5,1,2);
+			   draw(cx,cy+bs*9,1,2);
+			  //
+		  break;
+		  case 'b0':
+			  //DrawBlue0
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('blue');
+			   draw(cx+bs*3,cy+bs*3,2,10);
+			   draw(cx+bs*4,cy+bs*2,2,2);
+			   draw(cx+bs*5,cy+bs,6,2);
+			   draw(cx+bs*10,cy+bs*2,2,2);
+			   draw(cx+bs*11,cy+bs*3,2,10);
+			   draw(cx+bs*4,cy+bs*12,2,2);
+			   draw(cx+bs*10,cy+bs*12,2,2);
+			   draw(cx+bs*5,cy+bs*13,6,2);
+			  //
+		  break;
+		  case 'b1':
+			  //DrawBlue1
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('blue');
+			   draw(cx+bs*4,cy+bs*3,2,2);
+			   draw(cx+bs*5,cy+bs*2,2,2);
+			   draw(cx+bs*6,cy+bs,3,3);
+			   draw(cx+bs*7,cy+bs*4,2,9);
+			   draw(cx+bs*4,cy+bs*13,8,2);
+			  //
+		  break;
+		  case 'b2':
+			  //DrawBlue2
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('blue');
+			   draw(cx+bs*3,cy+bs*3,2,2);
+			   draw(cx+bs*4,cy+bs*2,2,2);
+			   draw(cx+bs*5,cy+bs,6,2);
+			   draw(cx+bs*10,cy+bs*2,2,5);
+			   draw(cx+bs*9,cy+bs*6,2,2);
+			   draw(cx+bs*8,cy+bs*7,2,2);
+			   draw(cx+bs*7,cy+bs*8,2,2);
+			   draw(cx+bs*6,cy+bs*9,2,2);
+			   draw(cx+bs*5,cy+bs*10,2,2);
+			   draw(cx+bs*4,cy+bs*11,2,2);
+			   draw(cx+bs*3,cy+bs*12,1,1);
+			   draw(cx+bs*3,cy+bs*13,10,2);
+			  //
+		  break;
+		  case 'b3':
+			  //DrawBlue3
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('blue');
+			   draw(cx+bs*3,cy+bs*3,2,2);
+			   draw(cx+bs*4,cy+bs*2,2,2);
+			   draw(cx+bs*5,cy+bs,5,2);
+			   draw(cx+bs*9,cy+bs*2,2,2);
+			   draw(cx+bs*10,cy+bs*3,2,4);
+			   draw(cx+bs*9,cy+bs*6,2,4);
+			   draw(cx+bs*6,cy+bs*7,3,2);
+			   draw(cx+bs*10,cy+bs*9,2,4);
+			   draw(cx+bs*9,cy+bs*12,2,2);
+			   draw(cx+bs*5,cy+bs*13,5,2);
+			   draw(cx+bs*4,cy+bs*12,2,2);
+			   draw(cx+bs*3,cy+bs*11,2,2);
+			  //
+		  break;
+		  case 'b4':
+			  //DrawBlue4
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('blue');
+			   draw(cx+bs*8,cy+bs,3,3);
+			   draw(cx+bs*7,cy+bs*2,1,2);
+			   draw(cx+bs*6,cy+bs*4,2,2);
+			   draw(cx+bs*5,cy+bs*6,2,2);
+			   draw(cx+bs*4,cy+bs*8,2,2);
+			   draw(cx+bs*3,cy+bs*10,2,1);
+			   draw(cx+bs*3,cy+bs*11,10,2);
+			   draw(cx+bs*9,cy+bs*4,2,11);
+			  //
+		  break;
+		  case 'b5':
+			  //DrawBlue5
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('blue');
+			   draw(cx+bs*3,cy+bs*11,2,2);
+			   draw(cx+bs*4,cy+bs*12,2,2);
+			   draw(cx+bs*5,cy+bs*13,5,2);
+			   draw(cx+bs*9,cy+bs*12,2,2);
+			   draw(cx+bs*10,cy+bs*9,2,4);
+			   draw(cx+bs*9,cy+bs*8,2,2);
+			   draw(cx+bs*3,cy+bs*7,7,2);
+			   draw(cx+bs*3,cy+bs*3,2,4);
+			   draw(cx+bs*3,cy+bs,9,2);
+			  //
+		  break;
+		  case 'b6':
+			  //DrawBlue6
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('blue');
+			   draw(cx+bs*9,cy+bs,2,2);
+			   draw(cx+bs*8,cy+bs*2,2,2);
+			   draw(cx+bs*7,cy+bs*3,2,2);
+			   draw(cx+bs*6,cy+bs*4,2,2);
+			   draw(cx+bs*5,cy+bs*5,2,2);
+			   draw(cx+bs*4,cy+bs*6,1,1);
+			   draw(cx+bs*3,cy+bs*7,3,3);
+			   draw(cx+bs*3,cy+bs*10,2,3);
+			   draw(cx+bs*4,cy+bs*12,2,2);
+			   draw(cx+bs*5,cy+bs*13,5,2);
+			   draw(cx+bs*9,cy+bs*12,2,2);
+			   draw(cx+bs*10,cy+bs*9,2,4);
+			   draw(cx+bs*9,cy+bs*8,2,2);
+			   draw(cx+bs*6,cy+bs*7,4,2);
+			  //
+		  break;
+		  case 'b7':
+			 //DrawBlue7
+			  setColor('sky');
+			  draw(cx,cy,16,16);
+			  setColor('blue');
+			  draw(cx+bs*3,cy+bs,10,2);
+			  draw(cx+bs*11,cy+bs,2,4);
+			  draw(cx+bs*10,cy+bs*4,2,3);
+			  draw(cx+bs*9,cy+bs*6,2,3);
+			  draw(cx+bs*8,cy+bs*8,2,3);
+			  draw(cx+bs*7,cy+bs*10,2,3);
+			  draw(cx+bs*6,cy+bs*12,2,3);
+			 //
+		  break;
+		  case 'b8':
+			  //DrawBlue8
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('blue');
+			   draw(cx+bs*3,cy+bs*3,2,4);
+			   draw(cx+bs*4,cy+bs*2,2,2);
+			   draw(cx+bs*5,cy+bs,5,2);
+			   draw(cx+bs*9,cy+bs*2,2,2);
+			   draw(cx+bs*10,cy+bs*3,2,4);
+			   draw(cx+bs*9,cy+bs*6,2,4);
+			   draw(cx+bs*6,cy+bs*7,3,2);
+			   draw(cx+bs*10,cy+bs*9,2,4);
+			   draw(cx+bs*9,cy+bs*12,2,2);
+			   draw(cx+bs*5,cy+bs*13,5,2);
+			   draw(cx+bs*4,cy+bs*12,2,2);
+			   draw(cx+bs*3,cy+bs*9,2,4);
+			   draw(cx+bs*4,cy+bs*6,2,4);
+			  //
+		  break;
+		  case 'b9':
+			  //DrawBlue9
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('blue');
+			   draw(cx+bs*5,cy+bs*7,4,2);
+			   draw(cx+bs*4,cy+bs*6,2,2);
+			   draw(cx+bs*3,cy+bs*3,2,4);
+			   draw(cx+bs*4,cy+bs*2,2,2);
+			   draw(cx+bs*5,cy+bs,5,2);
+			   draw(cx+bs*9,cy+bs*2,2,2);
+			   draw(cx+bs*9,cy+bs*6,3,3);
+			   draw(cx+bs*10,cy+bs*3,2,3);
+			   draw(cx+bs*10,cy+bs*9,1,1);
+			   draw(cx+bs*8,cy+bs*9,2,2);
+			   draw(cx+bs*7,cy+bs*10,2,2);
+			   draw(cx+bs*6,cy+bs*11,2,2);
+			   draw(cx+bs*5,cy+bs*12,2,2);
+			   draw(cx+bs*4,cy+bs*13,2,2);
+			  //
+		  break;
+		  case 'r0':
+			  //DrawRed0
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('red');
+			   draw(cx+bs*3,cy+bs*3,2,10);
+			   draw(cx+bs*4,cy+bs*2,2,2);
+			   draw(cx+bs*5,cy+bs,6,2);
+			   draw(cx+bs*10,cy+bs*2,2,2);
+			   draw(cx+bs*11,cy+bs*3,2,10);
+			   draw(cx+bs*4,cy+bs*12,2,2);
+			   draw(cx+bs*10,cy+bs*12,2,2);
+			   draw(cx+bs*5,cy+bs*13,6,2);
+			  //
+		  break;
+		  case 'r1':
+			  //DrawRed1
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('red');
+			   draw(cx+bs*4,cy+bs*3,2,2);
+			   draw(cx+bs*5,cy+bs*2,2,2);
+			   draw(cx+bs*6,cy+bs,3,3);
+			   draw(cx+bs*7,cy+bs*4,2,9);
+			   draw(cx+bs*4,cy+bs*13,8,2);
+			  //
+		  break;
+		  case 'r2':
+			  //DrawRed2
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('red');
+			   draw(cx+bs*3,cy+bs*3,2,2);
+			   draw(cx+bs*4,cy+bs*2,2,2);
+			   draw(cx+bs*5,cy+bs,6,2);
+			   draw(cx+bs*10,cy+bs*2,2,5);
+			   draw(cx+bs*9,cy+bs*6,2,2);
+			   draw(cx+bs*8,cy+bs*7,2,2);
+			   draw(cx+bs*7,cy+bs*8,2,2);
+			   draw(cx+bs*6,cy+bs*9,2,2);
+			   draw(cx+bs*5,cy+bs*10,2,2);
+			   draw(cx+bs*4,cy+bs*11,2,2);
+			   draw(cx+bs*3,cy+bs*12,1,1);
+			   draw(cx+bs*3,cy+bs*13,10,2);
+			  //
+		  break;
+		  case 'r3':
+			  //DrawRed3
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('red');
+			   draw(cx+bs*3,cy+bs*3,2,2);
+			   draw(cx+bs*4,cy+bs*2,2,2);
+			   draw(cx+bs*5,cy+bs,5,2);
+			   draw(cx+bs*9,cy+bs*2,2,2);
+			   draw(cx+bs*10,cy+bs*3,2,4);
+			   draw(cx+bs*9,cy+bs*6,2,4);
+			   draw(cx+bs*6,cy+bs*7,3,2);
+			   draw(cx+bs*10,cy+bs*9,2,4);
+			   draw(cx+bs*9,cy+bs*12,2,2);
+			   draw(cx+bs*5,cy+bs*13,5,2);
+			   draw(cx+bs*4,cy+bs*12,2,2);
+			   draw(cx+bs*3,cy+bs*11,2,2);
+			  //
+		  break;
+		  case 'r4':
+			  //DrawRed4
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('red');
+			   draw(cx+bs*8,cy+bs,3,3);
+			   draw(cx+bs*7,cy+bs*2,1,2);
+			   draw(cx+bs*6,cy+bs*4,2,2);
+			   draw(cx+bs*5,cy+bs*6,2,2);
+			   draw(cx+bs*4,cy+bs*8,2,2);
+			   draw(cx+bs*3,cy+bs*10,2,1);
+			   draw(cx+bs*3,cy+bs*11,10,2);
+			   draw(cx+bs*9,cy+bs*4,2,11);
+			  //
+		  break;
+		  case 'r5':
+			  //DrawRed5
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('red');
+			   draw(cx+bs*3,cy+bs*11,2,2);
+			   draw(cx+bs*4,cy+bs*12,2,2);
+			   draw(cx+bs*5,cy+bs*13,5,2);
+			   draw(cx+bs*9,cy+bs*12,2,2);
+			   draw(cx+bs*10,cy+bs*9,2,4);
+			   draw(cx+bs*9,cy+bs*8,2,2);
+			   draw(cx+bs*3,cy+bs*7,7,2);
+			   draw(cx+bs*3,cy+bs*3,2,4);
+			   draw(cx+bs*3,cy+bs,9,2);
+			  //
+		  break;
+		  case 'r6':
+			  //DrawRed6
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('red');
+			   draw(cx+bs*9,cy+bs,2,2);
+			   draw(cx+bs*8,cy+bs*2,2,2);
+			   draw(cx+bs*7,cy+bs*3,2,2);
+			   draw(cx+bs*6,cy+bs*4,2,2);
+			   draw(cx+bs*5,cy+bs*5,2,2);
+			   draw(cx+bs*4,cy+bs*6,1,1);
+			   draw(cx+bs*3,cy+bs*7,3,3);
+			   draw(cx+bs*3,cy+bs*10,2,3);
+			   draw(cx+bs*4,cy+bs*12,2,2);
+			   draw(cx+bs*5,cy+bs*13,5,2);
+			   draw(cx+bs*9,cy+bs*12,2,2);
+			   draw(cx+bs*10,cy+bs*9,2,4);
+			   draw(cx+bs*9,cy+bs*8,2,2);
+			   draw(cx+bs*6,cy+bs*7,4,2);
+			  //
+		  break;
+		  case 'r7':
+			 //DrawRed7
+			  setColor('sky');
+			  draw(cx,cy,16,16);
+			  setColor('red');
+			  draw(cx+bs*3,cy+bs,10,2);
+			  draw(cx+bs*11,cy+bs,2,4);
+			  draw(cx+bs*10,cy+bs*4,2,3);
+			  draw(cx+bs*9,cy+bs*6,2,3);
+			  draw(cx+bs*8,cy+bs*8,2,3);
+			  draw(cx+bs*7,cy+bs*10,2,3);
+			  draw(cx+bs*6,cy+bs*12,2,3);
+			 //
+		  break;
+		  case 'r8':
+			  //DrawRed8
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('red');
+			   draw(cx+bs*3,cy+bs*3,2,4);
+			   draw(cx+bs*4,cy+bs*2,2,2);
+			   draw(cx+bs*5,cy+bs,5,2);
+			   draw(cx+bs*9,cy+bs*2,2,2);
+			   draw(cx+bs*10,cy+bs*3,2,4);
+			   draw(cx+bs*9,cy+bs*6,2,4);
+			   draw(cx+bs*6,cy+bs*7,3,2);
+			   draw(cx+bs*10,cy+bs*9,2,4);
+			   draw(cx+bs*9,cy+bs*12,2,2);
+			   draw(cx+bs*5,cy+bs*13,5,2);
+			   draw(cx+bs*4,cy+bs*12,2,2);
+			   draw(cx+bs*3,cy+bs*9,2,4);
+			   draw(cx+bs*4,cy+bs*6,2,4);
+			  //
+		  break;
+		  case 'r9':
+			  //DrawRed9
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('red');
+			   draw(cx+bs*5,cy+bs*7,4,2);
+			   draw(cx+bs*4,cy+bs*6,2,2);
+			   draw(cx+bs*3,cy+bs*3,2,4);
+			   draw(cx+bs*4,cy+bs*2,2,2);
+			   draw(cx+bs*5,cy+bs,5,2);
+			   draw(cx+bs*9,cy+bs*2,2,2);
+			   draw(cx+bs*9,cy+bs*6,3,3);
+			   draw(cx+bs*10,cy+bs*3,2,3);
+			   draw(cx+bs*10,cy+bs*9,1,1);
+			   draw(cx+bs*8,cy+bs*9,2,2);
+			   draw(cx+bs*7,cy+bs*10,2,2);
+			   draw(cx+bs*6,cy+bs*11,2,2);
+			   draw(cx+bs*5,cy+bs*12,2,2);
+			   draw(cx+bs*4,cy+bs*13,2,2);
+			  //
+		  break;
+		  case 'bp':
+			  //DrawBlueP
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('blue');
+			   draw(cx+bs*9,cy+bs*2,2,10);
+			   draw(cx+bs*11,cy+bs*2,4,2);
+			   draw(cx+bs*11,cy+bs*5,4,2);
+			   draw(cx+bs*14,cy+bs*3,2,3);
+			  //
+		  break;
+		  case 'bw':
+			  //DrawBlueW
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('blue');
+			   draw(cx+bs,cy+bs*3,2,5);
+			   draw(cx+bs*2,cy+bs*8,2,2);
+			   draw(cx+bs*3,cy+bs*9,4,2);
+			   draw(cx+bs*4,cy+bs*11,2,1);
+			   draw(cx+bs*6,cy+bs*8,4,2);
+			   draw(cx+bs*7,cy+bs*7,2,1);
+			   draw(cx+bs*9,cy+bs*9,4,2);
+			   draw(cx+bs*10,cy+bs*11,2,1);
+			   draw(cx+bs*12,cy+bs*8,2,2);
+			   draw(cx+bs*13,cy+bs*3,2,5);
+			  //
+		  break;
+		  case 'bin':
+			  //DrawBlueIN
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('blue');
+			   draw(cx+bs*1,cy+bs*4,2,2);
+			   draw(cx+bs*1,cy+bs*7,2,5);
+			   draw(cx+bs*5,cy+bs*4,2,8);
+			   draw(cx+bs*7,cy+bs*6,1,2);
+			   draw(cx+bs*8,cy+bs*5,3,2);
+			   draw(cx+bs*10,cy+bs*6,2,6);
+			  //
+		  break;
+		  case 'rp':
+			  //DrawRedP
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('red');
+			   draw(cx+bs*9,cy+bs*2,2,10);
+			   draw(cx+bs*11,cy+bs*2,4,2);
+			   draw(cx+bs*11,cy+bs*5,4,2);
+			   draw(cx+bs*14,cy+bs*3,2,3);
+			  //
+		  break;
+		  case 'rw':
+			  //DrawRedW
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('red');
+			   draw(cx+bs,cy+bs*3,2,5);
+			   draw(cx+bs*2,cy+bs*8,2,2);
+			   draw(cx+bs*3,cy+bs*9,4,2);
+			   draw(cx+bs*4,cy+bs*11,2,1);
+			   draw(cx+bs*6,cy+bs*8,4,2);
+			   draw(cx+bs*7,cy+bs*7,2,1);
+			   draw(cx+bs*9,cy+bs*9,4,2);
+			   draw(cx+bs*10,cy+bs*11,2,1);
+			   draw(cx+bs*12,cy+bs*8,2,2);
+			   draw(cx+bs*13,cy+bs*3,2,5);
+			  //
+		  break;
+		  case 'rin':
+			  //DrawRedIN
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('red');
+			   draw(cx+bs*1,cy+bs*4,2,2);
+			   draw(cx+bs*1,cy+bs*7,2,5);
+			   draw(cx+bs*5,cy+bs*4,2,8);
+			   draw(cx+bs*7,cy+bs*6,1,2);
+			   draw(cx+bs*8,cy+bs*5,3,2);
+			   draw(cx+bs*10,cy+bs*6,2,6);
+			  //
+		  break;
+		  case 'shrl':
+			  //DrawShurikenReadySeeingLeft
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('grey');
+			   draw(cx+bs*12,cy+bs*5,3,3);
+			   draw(cx+bs*11,cy+bs*4,1,3);
+			   draw(cx+bs*13,cy+bs*4,3,1);
+			   draw(cx+bs*15,cy+bs*6,1,3);
+			   draw(cx+bs*11,cy+bs*8,3,1);
+			   setColor('grey,');
+			   draw(cx+bs*13,cy+bs*5,1,3);
+			   draw(cx+bs*12,cy+bs*6,3,1);
+			  //
+		  break;
+		  case 'shrr':
+			  //DrawShurikenReadySeeingRight
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('grey');
+			   draw(cx+bs,cy+bs*5,3,3);
+			   draw(cx,cy+bs*4,1,3);
+			   draw(cx+bs*2,cy+bs*4,3,1);
+			   draw(cx+bs*4,cy+bs*6,1,3);
+			   draw(cx,cy+bs*8,3,1);
+			   setColor('grey,');
+			   draw(cx+bs*2,cy+bs*5,1,3);
+			   draw(cx+bs,cy+bs*6,3,1);
+			  //
+		  break;
+		  case 'shCL1l':
+			  //DrawShurikenChargingLevel1SeeingLeft
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('grey');
+			   draw(cx+bs*12,cy+bs*5,3,3);
+			   draw(cx+bs*11,cy+bs*4,1,3);
+			   draw(cx+bs*13,cy+bs*4,3,1);
+			   draw(cx+bs*15,cy+bs*6,1,3);
+			   draw(cx+bs*11,cy+bs*8,3,1);
+			   setColor('grey,');
+			   draw(cx+bs*13,cy+bs*5,1,3);
+			   draw(cx+bs*12,cy+bs*6,3,1);
+			   setColor('black');
+			   draw(cx+bs*2,cy+bs*11,12,3);
+			   setColor('sky');
+			   draw(cx+bs*3,cy+bs*12,10,1);
+			   setColor('green');
+			   draw(cx+bs*3,cy+bs*12,2,1);
+			  //
+		  break;
+		  case 'shCL2l':
+			  //DrawShurikenChargingLevel2SeeingLeft
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('grey');
+			   draw(cx+bs*12,cy+bs*5,3,3);
+			   draw(cx+bs*11,cy+bs*4,1,3);
+			   draw(cx+bs*13,cy+bs*4,3,1);
+			   draw(cx+bs*15,cy+bs*6,1,3);
+			   draw(cx+bs*11,cy+bs*8,3,1);
+			   setColor('grey,');
+			   draw(cx+bs*13,cy+bs*5,1,3);
+			   draw(cx+bs*12,cy+bs*6,3,1);
+			   setColor('black');
+			   draw(cx+bs*2,cy+bs*11,12,3);
+			   setColor('sky');
+			   draw(cx+bs*3,cy+bs*12,10,1);
+			   setColor('green');
+			   draw(cx+bs*3,cy+bs*12,2,1);
+			   setColor('green1');
+			   draw(cx+bs*5,cy+bs*12,2,1);
+			  //
+		  break;
+		  case 'shCL3l':
+			  //DrawShurikenChargingLevel3SeeingLeft
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('grey');
+			   draw(cx+bs*12,cy+bs*5,3,3);
+			   draw(cx+bs*11,cy+bs*4,1,3);
+			   draw(cx+bs*13,cy+bs*4,3,1);
+			   draw(cx+bs*15,cy+bs*6,1,3);
+			   draw(cx+bs*11,cy+bs*8,3,1);
+			   setColor('grey,');
+			   draw(cx+bs*13,cy+bs*5,1,3);
+			   draw(cx+bs*12,cy+bs*6,3,1);
+			   setColor('black');
+			   draw(cx+bs*2,cy+bs*11,12,3);
+			   setColor('sky');
+			   draw(cx+bs*3,cy+bs*12,10,1);
+			   setColor('green');
+			   draw(cx+bs*3,cy+bs*12,2,1);
+			   setColor('green1');
+			   draw(cx+bs*5,cy+bs*12,2,1);
+			   setColor('middle');
+			   draw(cx+bs*7,cy+bs*12,2,1);
+			  //
+		  break;
+		  case 'shCL4l':
+			  //DrawShurikenChargingLevel4SeeingLeft
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('grey');
+			   draw(cx+bs*12,cy+bs*5,3,3);
+			   draw(cx+bs*11,cy+bs*4,1,3);
+			   draw(cx+bs*13,cy+bs*4,3,1);
+			   draw(cx+bs*15,cy+bs*6,1,3);
+			   draw(cx+bs*11,cy+bs*8,3,1);
+			   setColor('grey,');
+			   draw(cx+bs*13,cy+bs*5,1,3);
+			   draw(cx+bs*12,cy+bs*6,3,1);
+			   setColor('black');
+			   draw(cx+bs*2,cy+bs*11,12,3);
+			   setColor('sky');
+			   draw(cx+bs*3,cy+bs*12,10,1);
+			   setColor('green');
+			   draw(cx+bs*3,cy+bs*12,2,1);
+			   setColor('green1');
+			   draw(cx+bs*5,cy+bs*12,2,1);
+			   setColor('middle');
+			   draw(cx+bs*7,cy+bs*12,2,1);
+			   setColor('red1');
+			   draw(cx+bs*9,cy+bs*12,2,1);
+			  //
+		  break;
+		  case 'shCL5l':
+			  //DrawShurikenChargingLevel5SeeingLeft
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('grey');
+			   draw(cx+bs*12,cy+bs*5,3,3);
+			   draw(cx+bs*11,cy+bs*4,1,3);
+			   draw(cx+bs*13,cy+bs*4,3,1);
+			   draw(cx+bs*15,cy+bs*6,1,3);
+			   draw(cx+bs*11,cy+bs*8,3,1);
+			   setColor('grey,');
+			   draw(cx+bs*13,cy+bs*5,1,3);
+			   draw(cx+bs*12,cy+bs*6,3,1);
+			   setColor('black');
+			   draw(cx+bs*2,cy+bs*11,12,3);
+			   setColor('sky');
+			   draw(cx+bs*3,cy+bs*12,10,1);
+			   setColor('green');
+			   draw(cx+bs*3,cy+bs*12,2,1);
+			   setColor('green1');
+			   draw(cx+bs*5,cy+bs*12,2,1);
+			   setColor('middle');
+			   draw(cx+bs*7,cy+bs*12,2,1);
+			   setColor('red1');
+			   draw(cx+bs*9,cy+bs*12,2,1);
+			   setColor('red');
+			   draw(cx+bs*11,cy+bs*12,2,1);
+			  //
+		  break;
+		  case 'shCL1r':
+			  //DrawShurikenChargingLevel1SeeingRight
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('grey');
+			   draw(cx+bs,cy+bs*5,3,3);
+			   draw(cx,cy+bs*4,1,3);
+			   draw(cx+bs*2,cy+bs*4,3,1);
+			   draw(cx+bs*4,cy+bs*6,1,3);
+			   draw(cx,cy+bs*8,3,1);
+			   setColor('grey,');
+			   draw(cx+bs*2,cy+bs*5,1,3);
+			   draw(cx+bs,cy+bs*6,3,1);
+			   setColor('black');
+			   draw(cx+bs*2,cy+bs*11,12,3);
+			   setColor('sky');
+			   draw(cx+bs*3,cy+bs*12,10,1);
+			   setColor('green');
+			   draw(cx+bs*3,cy+bs*12,2,1);
+			  //
+		  break;
+		  case 'shCL2r':
+			  //DrawShurikenChargingLevel2SeeingRight
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('grey');
+			   draw(cx+bs,cy+bs*5,3,3);
+			   draw(cx,cy+bs*4,1,3);
+			   draw(cx+bs*2,cy+bs*4,3,1);
+			   draw(cx+bs*4,cy+bs*6,1,3);
+			   draw(cx,cy+bs*8,3,1);
+			   setColor('grey,');
+			   draw(cx+bs*2,cy+bs*5,1,3);
+			   draw(cx+bs,cy+bs*6,3,1);
+			   setColor('black');
+			   draw(cx+bs*2,cy+bs*11,12,3);
+			   setColor('sky');
+			   draw(cx+bs*3,cy+bs*12,10,1);
+			   setColor('green');
+			   draw(cx+bs*3,cy+bs*12,2,1);
+			   setColor('green1');
+			   draw(cx+bs*5,cy+bs*12,2,1);
+			  //
+		  break;
+		  case 'shCL3r':
+			  //DrawShurikenChargingLevel3SeeingRight
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('grey');
+			   draw(cx+bs,cy+bs*5,3,3);
+			   draw(cx,cy+bs*4,1,3);
+			   draw(cx+bs*2,cy+bs*4,3,1);
+			   draw(cx+bs*4,cy+bs*6,1,3);
+			   draw(cx,cy+bs*8,3,1);
+			   setColor('grey,');
+			   draw(cx+bs*2,cy+bs*5,1,3);
+			   draw(cx+bs,cy+bs*6,3,1);
+			   setColor('black');
+			   draw(cx+bs*2,cy+bs*11,12,3);
+			   setColor('sky');
+			   draw(cx+bs*3,cy+bs*12,10,1);
+			   setColor('green');
+			   draw(cx+bs*3,cy+bs*12,2,1);
+			   setColor('green1');
+			   draw(cx+bs*5,cy+bs*12,2,1);
+			   setColor('middle');
+			   draw(cx+bs*7,cy+bs*12,2,1);
+			  //
+		  break;
+		  case 'shCL4r':
+			  //DrawShurikenChargingLevel4SeeingRight
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('grey');
+			   draw(cx+bs,cy+bs*5,3,3);
+			   draw(cx,cy+bs*4,1,3);
+			   draw(cx+bs*2,cy+bs*4,3,1);
+			   draw(cx+bs*4,cy+bs*6,1,3);
+			   draw(cx,cy+bs*8,3,1);
+			   setColor('grey,');
+			   draw(cx+bs*2,cy+bs*5,1,3);
+			   draw(cx+bs,cy+bs*6,3,1);
+			   setColor('black');
+			   draw(cx+bs*2,cy+bs*11,12,3);
+			   setColor('sky');
+			   draw(cx+bs*3,cy+bs*12,10,1);
+			   setColor('green');
+			   draw(cx+bs*3,cy+bs*12,2,1);
+			   setColor('green1');
+			   draw(cx+bs*5,cy+bs*12,2,1);
+			   setColor('middle');
+			   draw(cx+bs*7,cy+bs*12,2,1);
+			   setColor('red1');
+			   draw(cx+bs*9,cy+bs*12,2,1);
+			  //
+		  break;
+		  case 'shCL5r':
+			  //DrawShurikenChargingLevel5SeeingRight
+			   setColor('sky');
+			   draw(cx,cy,16,16);
+			   setColor('grey');
+			   draw(cx+bs,cy+bs*5,3,3);
+			   draw(cx,cy+bs*4,1,3);
+			   draw(cx+bs*2,cy+bs*4,3,1);
+			   draw(cx+bs*4,cy+bs*6,1,3);
+			   draw(cx,cy+bs*8,3,1);
+			   setColor('grey,');
+			   draw(cx+bs*2,cy+bs*5,1,3);
+			   draw(cx+bs,cy+bs*6,3,1);
+			   setColor('black');
+			   draw(cx+bs*2,cy+bs*11,12,3);
+			   setColor('sky');
+			   draw(cx+bs*3,cy+bs*12,10,1);
+			   setColor('green');
+			   draw(cx+bs*3,cy+bs*12,2,1);
+			   setColor('green1');
+			   draw(cx+bs*5,cy+bs*12,2,1);
+			   setColor('middle');
+			   draw(cx+bs*7,cy+bs*12,2,1);
+			   setColor('red1');
+			   draw(cx+bs*9,cy+bs*12,2,1);
+			   setColor('red');
+			   draw(cx+bs*11,cy+bs*12,2,1);
+			  //
+		  break;
+	 }
+  }
+  function draw(cX, cY, x, y){
+	  gameScreen.fillRect(cX,cY,bs*x,bs*y);
+  }
+  function setColor(color){
+	  switch(color){
+		  case 'black':
+			  gameScreen.fillStyle = 'rgba(0,0,0,1)';
+		  break;
+		  case 'white':
+			  gameScreen.fillStyle = 'rgba(225,225,225,1)';
+		  break;
+		  case 'red':
+			  gameScreen.fillStyle = 'rgba(225,0,0,1)';
+		  break;
+		  case 'green':
+			  gameScreen.fillStyle = 'rgba(0,255,0,1)';
+		  break;
+		  case 'blue':
+			  gameScreen.fillStyle = 'rgba(0,0,225,1)';
+		  break;
+		  case 'sky':
+			  gameScreen.fillStyle = 'rgba(150,255,255,1)';
+		  break;
+		  case 'dirt':
+			  gameScreen.fillStyle = 'rgba(193,131,66,1)';
+		  break;
+		  case 'grey':
+			  gameScreen.fillStyle = 'rgba(172,172,172,1)';
+		  break;
+		  case 'grey,':
+			  gameScreen.fillStyle = 'rgba(114,114,114,1)';
+		  break;
+		  case 'green1':
+			  gameScreen.fillStyle = 'rgba(63,191,0,1)';
+		  break;
+		  case 'red1':
+			  gameScreen.fillStyle = 'rgba(191,63,0,1)';
+		  break;
+		  case 'middle':
+			  gameScreen.fillStyle = 'rgba(127,127,0,1)';
+		  break;
+	  }
+  }
+ </script>
+</body>
+</html>

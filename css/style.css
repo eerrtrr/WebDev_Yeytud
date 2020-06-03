@@ -162,13 +162,13 @@ input[type=date], input[type=datetime-local], input[type=email], input[type=numb
     font-weight: 800;
     letter-spacing: 10px;
     font-family: 'Open Sans', sans-serif;
-    color: #499fb3;
+    color : #499dc6;
 }
 .single_home p{
     font-weight: 600;
     letter-spacing: 5px;
     font-family: 'Open Sans', sans-serif;
-    color: #499fb3;
+    color : #499dc6;
 }
 
 

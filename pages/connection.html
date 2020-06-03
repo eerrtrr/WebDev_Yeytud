@@ -1,40 +1,45 @@
 <html>
-<head>
-	<link href="../css/connection.css" rel="stylesheet" type="text/css">
-	<!-- Bootstrap simple log in form CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-</head>
-<body>
-	<div class="login-form">
-		<!-- Connection form -->
-		<form action="../php/connection.php" method="post">
-			<!-- Informations -->
-			<h2 class="text-center">Connexion</h2>
-			<p class="text-center">Vous devez être connecté pour modifier le dictionnaire</p>
+	<head>
+		<title>Yeytud.fr : Dictionnary</title>
+		<meta charset="UTF-8">
+		<meta name="author" content="MELONI Axel (aka eerrtrr), SILVANO Sebastien (aka IAsebsil83), TERRASSON Frederic (aka Terminator9896)">
+		<meta name="description" content="Venez découvrir et apprendre une nouvelle langue créee et animée par des Sciences Antiques">
+		<link href="../css/connection.css" rel="stylesheet" type="text/css">
+		<!-- Bootstrap simple log in form CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	</head>
+	<body>
+		<div class="login-form">
+			<!-- Connection form -->
+			<form action="../php/connection.php" method="post">
+				<!-- Informations -->
+				<img src="../images/connection_yeyLogo.jpg" class="connection-yeyLogo">
+				<h2 class="text-center">Connexion</h2>
+				<p class="text-center">Vous devez être connecté pour modifier le dictionnaire</p>
 
-			<!-- Error logging in -->
-			<p class="error-logging-in" id="error-logging-in"></p>
+				<!-- Error logging in -->
+				<p class="error-logging-in" id="error-logging-in"></p>
 
-			<!-- Username -->
-			<div class="form-group">
-				<input type="text" class="form-control" name="username" placeholder="Identifiant" required="required">
-			</div>
+				<!-- Username -->
+				<div class="form-group">
+					<input type="text" class="form-control" name="username" placeholder="Identifiant" required="required">
+				</div>
 
-			<!-- Password -->
-			<div class="form-group">
-				<input type="password" class="form-control" name="password" placeholder="Mot de passe" required="required">
-			</div>
+				<!-- Password -->
+				<div class="form-group">
+					<input type="password" class="form-control" name="password" placeholder="Mot de passe" required="required">
+				</div>
 
-			<!-- Connection button-->
-			<div class="form-group">
-				<button type="submit" class="btn btn-primary btn-block" name="login">Connexion</button>
-			</div>
-		</form>
+				<!-- Connection button-->
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-block" name="login">Connexion</button>
+				</div>
+			</form>
 
-		<!-- Go back to main page -->
-		<p class="text-center">
-			<a href="../index.html">Retourner à l'accueil</a>
-		</p>
-	</div>
-</body>
+			<!-- Go back to main page -->
+			<p class="text-center">
+				<a href="../index.html">Retourner à l'accueil</a>
+			</p>
+		</div>
+	</body>
 </html>

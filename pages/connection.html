@@ -1,46 +1,40 @@
-<html lang="en">
-	<head>
-		<title>Yeytud.fr : Connection</title>
-		<meta charset="UTF-8">
-		<meta name="author" content="MELONI Axel (aka eerrtrr), SILVANO Sebastien (aka IAsebsil83), TERRASSON Frederic (aka Terminator9896)">
-		<meta name="description" content="Venez découvrir et apprendre une nouvelle langue créee et animée par des Sciences Antiques">
-		<link href="../css/connection.css" rel="stylesheet" type="text/css">
-	</head>
-	<body>
-
-		<!-- background image -->
-		<img src="../images/connection_background.png">
-		
+<html>
+<head>
+	<link href="../css/connection.css" rel="stylesheet" type="text/css">
+	<!-- Bootstrap simple log in form CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+	<div class="login-form">
 		<!-- Connection form -->
-		<div class="text-center">
-			<form class="form-signin">
+		<form action="connection.php" method="post">
+			<!-- Informations -->
+			<h2 class="text-center">Connexion</h2>
+			<p class="text-center">Vous devez être connecté pour modifier le dictionnaire</p>
 
-				<!-- Logo -->
-				<img class="mb-4" src="../images/connection_yeyLogo.jpg" alt="" width="320" height="480">
+			<!-- Error logging in -->
+			<p class="error-logging-in" id="error-logging-in"></p>
 
-				<!-- Informations -->
-				<h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+			<!-- Username -->
+			<div class="form-group">
+				<input type="text" class="form-control" name="username" placeholder="Identifiant" required="required">
+			</div>
 
-				<!-- Username -->
-				<label for="inputEmail" class="sr-only">Username</label>
-				<input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+			<!-- Password -->
+			<div class="form-group">
+				<input type="password" class="form-control" name="password" placeholder="Mot de passe" required="required">
+			</div>
 
-				<!-- Password -->
-				<label for="inputPassword" class="sr-only">Password</label>
-				<input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+			<!-- Connection button-->
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary btn-block" name="login">Connexion</button>
+			</div>
+		</form>
 
-				<!-- Stay connected option -->
-				<div class="checkbox mb-3">
-					<label>
-						<input type="checkbox" value="remember-me"> Remember me
-					</label>
-				</div>
-
-				<!-- Connection button -->
-				<button class="btn btn-lg btn-primary btn-block" type="submit">Connection</button>
-				<script language="javascript" src="../js/connection.js"></script>
-			</form>
-		</div>
-	</body>
-
+		<!-- Go back to main page -->
+		<p class="text-center">
+			<a href="../index.html">Retourner à l'accueil</a>
+		</p>
+	</div>
+</body>
 </html>

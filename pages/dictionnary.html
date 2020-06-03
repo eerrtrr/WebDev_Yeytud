@@ -23,19 +23,23 @@
 			</nav>
 
 			<!-- Redirect to dictionnary editor -->
-			<div style="float:right;">
+			<div style="margin:left">
 				<a href="connection.html">Modifier le dictionnaire</a>
 			</div>
 		</header>
 
 		<!-- user input -->
-		<input type="text" name="motFr" placeholder="Mot en français" oninput="" id="in">
+		<input type="text" id="user-input" placeholder="Mot en français" oninput="searchFromFra()">
 		<button type="button" onclick="">Afficher tous le dictionnaire</button>
+
+		<!-- user output -->
+		<div id="user-output">Pas de résultat trouvé</div>
 
 		<!-- background -->
 		<img src="../images/dictionnary.jpg">
 
 		<!-- Dictionnary search motor -->
+		<script language="javascript" src="../js/dictionnary_data.js"></script>
 		<script language="javascript" src="../js/dictionnary_search.js"></script>
 
 	</body>

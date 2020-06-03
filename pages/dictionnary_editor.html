@@ -1,178 +1,33 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
+		<title>Yeytud.fr : Dictionnary editor</title>
 		<meta charset="UTF-8">
-		<title>Yeytud.fr</title>
-	 	<script>
-			var dictionnary = {
-			"oui": "ĥû",
-			"non": "ne",
-			"bof": "ĥûne",
-			"presque": "ĥûne",
-			"être": "gle",
-			"force": "zîj",
-			"contrôle": "daltâj",
-			"eau": "îgemeĝa",
-			"avec": "vârno",
-			"moi": "âj",
-			"lorsque": "mâge",
-			"le mien": "hâ",
-			"calmer": "dadat",
-			"un seul": "va",
-			"et": "ma",
-			"toi": "bj",
-			"alcool fort": "îâmaĝâ",
-			"mieux": "maĝâ",
-			"fort": "îâz",
-			"doux": ["îgaz"],
-			"uniquement": "vaj", 
-			"seulement": "vaj",
-			"cheval": "cevô",
-			"chevaux": "cevâls",
-			"café": "dadîn",
-			"machine": "âmpul",
-
-			"amélioration": "îâmag",
-			"violence": "âgzal",
-			"papier": "sîgmod",	
-			"gomme": "spule",
-			"toilettes": "hatâtî",
-			"uriner": "tâtu",
-			"déféquer": "tâgel",
-			"aimer": "âpout",
-			"apprécier": "apoot",
-			"corriger": "tîbecs",
-			"lettre": "csîgre",
-			"fenêtre": "zîzôlân",
-			"trop content": "ĝârâzpûrg",
-			"argent": "zîncel",
-			"porte-feuille": "zîncelpruf",
-			"heureux": "ĝârâz",
-			"trop": "pûrg",
-			"effectivement": "ĥûnart",
-			"confirmation": "nart",
-			"porter": "pruf",
-			"génial": "stâpe",
-
-			"Land": "pîpr",
-			"génialitude": "stâpîlô",
-			"bonheur": "ĝârâzîlô",
-			"sommeil": "mîsal",
-			"énergie": "mîpuâvr",
-			"excité": "lle",
-			"pour": "pô",
-			"prendre du bon temps": "pârpeca",
-			"déchet": "tâg",
-			"pipi": "tât",
-			"paix": "sap",
-			"lui": "cj",
-			"elle": "cj",
-			"nous": "âpj",
-			"eux": "cej",
-			"vous": "pcej",
-			"ciseaux": "jîrucs",
-			"pierre": "spârtazn",
-			"dûr": "spârt",
-			"nature": "azn",
-			"léger": "ĝâpî",
-			"lourd": "vôlt",
-			"stylo": "fôacumô",
-			"la lourdeur": "vôltô",
-			"air": "ĝâpizn",
-
-			"métal": "vôltazn",
-			"talentueux": "dezâlîm",
-			"talent": "dez",	
-			"école": ["nazî", "nazîpîpr"],
-			"France": ["frânz", "frânzpîpr"],
-			"français": ["frânztud", "frânzpat"],
-			"langue": "tud",
-			"appartenir à": "pat", 
-			"pratiquer": "pat",
-			"dedans": "",
-			"dessus": "", 
-			"sur": "",
-			"dehors": "",
-			"dessous": "",
-			"rebondir": "âlîônâ",
-			"trampoline": "âlîônâpîpr",
-			};
-			
-
-
-			var meaning = {
-				"frânz": "état",			
-				"frânzpîpr": "territoire",
-				"frânztud": "langue",
-				"frânzpat": "nationalité",
-				"nazîpîpr": "batîment",
-				"vôltô": "pour quelqu'un",
-			};
-
-		</script>
+		<meta name="author" content="MELONI Axel (aka eerrtrr), SILVANO Sebastien (aka IAsebsil83), TERRASSON Frederic (aka Terminator9896)">
+		<meta name="description" content="Venez découvrir et apprendre une nouvelle langue créee et animée par des Sciences Antiques">
 		<link href="../css/styles.css" rel="stylesheet" type="text/css">
-	 </head>
-	 <body>
-	   	<input type="text" name="motFr" placeholder="Mot en français" oninput="findYeytranslation()" id="in">
-	   	<button type="button" onclick="displayDictio();">Afficher tous le dictionnaire</button>
-		<div id="tab">
-			<div id="outFr"></div>
-			<div id="outYey"></div>
-		</div>
-		<script>
-			function findYeytranslation(){
-				document.getElementById("outFr").innerHTML="";
-				document.getElementById("outYey").innerHTML="";
-				var input = document.getElementById("in").value;
-				if(typeof(dictionnary[input]) === 'object'){
-						for(var i=0; i<dictionnary[input].length; i++){
-							if(meaning[dictionnary[input][i]] != undefined){
-								document.getElementById("outFr").innerHTML+=input+ "("+meaning[dictionnary[input][i]]+") <br>";
-							}
-							else{
-								document.getElementById("outFr").innerHTML+=input+"<br>";
-							}
-							document.getElementById("outYey").innerHTML+=dictionnary[input][i]+"<br>";
-						}
-					}
+	</head>
+	<body>
+		<!-- menu options -->
+		<header>
+			<nav>
+				<ul>
+					<li><a href="../index.html">Accueil</a></li>
+					<li><a href="courses.html">Cours</a></li>
+					<li><a href="exercices.html">Exercices</a></li>
+					<li><a href="dictionnary.html">Dictionnaire</a></li>
+					<li><a href="history.html">Histoire</a></li>
+					<li><a href="contact_us.html">Nous contacter</a></li>
+				</ul>
+			</nav>
+		</header>
 
-					else{
-						if(dictionnary[input] != undefined){
-							document.getElementById("outFr").innerHTML+=input+"<br>";
-							document.getElementById("outYey").innerHTML+=dictionnary[input]+"<br>";
-						}
-						else if(input != ""){
-							document.getElementById("outFr").innerHTML+="Désolé il n'y a pas encore de traduction pour le mot \""+input+"\"<br>";
-						}
-						else{
-							document.getElementById("outFr").innerHTML="";
-						}
-					}
-			}
-			
-			function displayDictio(){
-				document.getElementById("outFr").innerHTML="";
-				document.getElementById("outYey").innerHTML="";
-				for (var fr in dictionnary){
-					if(typeof(dictionnary[fr]) === 'object'){
-						for(var i=0; i<dictionnary[fr].length; i++){
-							if(meaning[dictionnary[fr][i]] != undefined){
-								document.getElementById("outFr").innerHTML+=fr+ "("+meaning[dictionnary[fr][i]]+") <br>";
-							}
-							else{
-								document.getElementById("outFr").innerHTML+=fr+"<br>";
-							}
-							document.getElementById("outYey").innerHTML+=dictionnary[fr][i]+"<br>";
-						}
-					}
+		<!-- user input -->
+		<input type="text" name="motFr" placeholder="Mot en français" oninput="" id="in">
+		<button type="button" onclick="">Afficher tous le dictionnaire</button>
 
-					else{
-						document.getElementById("outFr").innerHTML+=fr+"<br>";
-						document.getElementById("outYey").innerHTML+=dictionnary[fr]+"<br>";
-					}
-				}
-			}
-		</script>
-	 
-	 </body>
+		<!-- Dictionnary search motor -->
+		<script language="javascript" src="js/dictionnary_search.js"></script>
+
+	</body>
 </html>

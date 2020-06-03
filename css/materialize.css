@@ -7369,10 +7369,6 @@ input[type=range]:focus::-ms-fill-upper {
     opacity: 0;
 }
 
-.slider .slides li .caption p {
-    color: #e0e0e0;
-}
-
 .slider .slides li.active {
     z-index: 2;
 }

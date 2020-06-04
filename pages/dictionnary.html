@@ -6,6 +6,7 @@
 		<meta name="author" content="MELONI Axel (aka eerrtrr), SILVANO Sebastien (aka IAsebsil83), TERRASSON Frederic (aka Terminator9896)">
 		<meta name="description" content="Venez découvrir et apprendre une nouvelle langue créee et animée par des Sciences Antiques">
 		<link href="../css/styles.css" rel="stylesheet" type="text/css">
+		<link href="../css/dictionnary.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
 		<!-- Modify dictionnary -->
@@ -25,15 +26,19 @@
 
 		<!-- Informations -->
 		<h2 class="dico-title">Dictionnaire</h2>
-		<p class="dico-info"></p>
+		<p class="dico-info">Ici vous pouvez traduire un mot français en yeytud et inversement.</p>
+
+
 
 		<!-- French zone -->
-		<span class="dico-zone-fra">
+		<div class="dico-zone">
 
 			<!-- French input -->
 			<div class="dico-divFrame">
+				<span>
 				<img src="../images/dictionnary_fra.jpg" class="dico-img-fra">
 				<input type="text" class="dico-input" id="input-fra" placeholder="Mot en francais">
+				</span>
 			</div>
 
 			<!-- French output -->
@@ -41,22 +46,26 @@
 				No result found
 			</div>
 
-		</span>
+		</div>
+
+
 
 		<!-- Yeytud zone -->
-		<span class="dico-zone-yey">
+		<div class="dico-zone">
 
 			<!-- Yeytud input -->
 			<div class="dico-divFrame">
-				<img src="../images/dictionnary_yey.jpg" class="dico-img-yey">
-				<input type="text" class="dico-input" id="input-yey" placeholder="Mot en yeytud">
+				<img src="../images/dictionnary_yey.png" class="dico-img-yey">
+				<span><input type="text" class="dico-input" id="input-yey" placeholder="Mot en yeytud"></span>
 			</div>
 
 			<!-- Yeytud output -->
 			<div class="dico-divFrame" id="output-yey">
 				Aucun résultat trouvé
 			</div>
-		</span>
+		</div>
+
+
 
 		<!-- Dictionnary search motor -->
 		<script language="javascript" src="../js/dictionnary_search.js"></script>

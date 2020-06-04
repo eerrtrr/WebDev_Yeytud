@@ -1,5 +1,5 @@
 body{
-	background-image: url('../images/dictionnary_background.png');
+	background-image: url('../images/dictionnary_background.jpg');
 	background-repeat: no-repeat;
 	display: block;
 }
@@ -8,39 +8,40 @@ body{
 	text-align: center;
 	font-family: sans-serif;
 	font-size: 35px;
+	padding: 10px;
 	font-weight: bold;
 }
 .dico-info{
 	text-align: center;
 	font-family: sans-serif;
 	font-size: 15px;
+	padding: 10px;
+	margin-bottom: 20px;
 }
-.dico-zone-fra{
+.dico-zone{
 	display: inline-block;
+	width: 45%;
 	margin-left: 20px;
-	padding: 12px 20px;
-	background-color: #f7f7f7;
-	border-width: 5px;
-	border-style: ridge;
-	border-radius: 5px;
-}
-.dico-zone-yey{
-	display: inline-block;
 	margin-right: 20px;
 	padding: 12px 20px;
 	background-color: #f7f7f7;
 	border-width: 5px;
 	border-style: ridge;
-	border-radius: 5px;
+	padding: 10px 10px;
+	border-radius: 8px;
 }
 .dico-divFrame{
 	color: #ffffff;
-	background-color: #dddddd;
+	background-color: rgba(0,0,0, 0.2);
+	border-color: #2f2f2f;
 	border-style: outset;
+	padding: 10px 10px;
+	margin-bottom: 20px;
 	border-radius: 5px;
 }
 .dico-img-yey, .dico-img-fra{ /*flag images*/
 	display: block;
+	padding: 3px 3px;
 	margin-left: 5px;
 	border-style: ridge;
 	border-radius: 5px;
@@ -49,6 +50,7 @@ body{
 	width: 100%;
 	padding: 12px 20px;
 	margin: 8px 0;
+	padding: 10px 10px;
 	border: 1px solid #ccc;
 	border-radius: 4px;
 }

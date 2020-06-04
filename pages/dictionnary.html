@@ -21,25 +21,44 @@
 					<li><a href="contact_us.html">Nous contacter</a></li>
 				</ul>
 			</nav>
-
-			<!-- Redirect to dictionnary editor -->
-			<div style="margin:left">
-				<a href="connection.html">Modifier le dictionnaire</a>
-			</div>
 		</header>
 
-		<!-- user input -->
-		<input type="text" id="user-input" placeholder="Mot en français" oninput="searchFromFra()">
-		<button type="button" onclick="">Afficher tous le dictionnaire</button>
+		<!-- Informations -->
+		<h2 class="dico-title">Dictionnaire</h2>
+		<p class="dico-info"></p>
 
-		<!-- user output -->
-		<div id="user-output">Pas de résultat trouvé</div>
+		<!-- French zone -->
+		<span class="dico-zone-fra">
 
-		<!-- background -->
-		<img src="../images/dictionnary.jpg">
+			<!-- French input -->
+			<div class="dico-divFrame">
+				<img src="../images/dictionnary_fra.jpg" class="dico-img-fra">
+				<input type="text" class="dico-input" id="input-fra" placeholder="Mot en francais">
+			</div>
+
+			<!-- French output -->
+			<div class="dico-divFrame" id="output-fra">
+				No result found
+			</div>
+
+		</span>
+
+		<!-- Yeytud zone -->
+		<span class="dico-zone-yey">
+
+			<!-- Yeytud input -->
+			<div class="dico-divFrame">
+				<img src="../images/dictionnary_yey.jpg" class="dico-img-yey">
+				<input type="text" class="dico-input" id="input-yey" placeholder="Mot en yeytud">
+			</div>
+
+			<!-- Yeytud output -->
+			<div class="dico-divFrame" id="output-yey">
+				Aucun résultat trouvé
+			</div>
+		</span>
 
 		<!-- Dictionnary search motor -->
-		<script language="javascript" src="../js/dictionnary_data.js"></script>
 		<script language="javascript" src="../js/dictionnary_search.js"></script>
 
 	</body>

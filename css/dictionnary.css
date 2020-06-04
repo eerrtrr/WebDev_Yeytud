@@ -1,0 +1,54 @@
+body{
+	background-image: url('../images/dictionnary_background.png');
+	background-repeat: no-repeat;
+	display: block;
+}
+
+.dico-title{
+	text-align: center;
+	font-family: sans-serif;
+	font-size: 35px;
+	font-weight: bold;
+}
+.dico-info{
+	text-align: center;
+	font-family: sans-serif;
+	font-size: 15px;
+}
+.dico-zone-fra{
+	display: inline-block;
+	margin-left: 20px;
+	padding: 12px 20px;
+	background-color: #f7f7f7;
+	border-width: 5px;
+	border-style: ridge;
+	border-radius: 5px;
+}
+.dico-zone-yey{
+	display: inline-block;
+	margin-right: 20px;
+	padding: 12px 20px;
+	background-color: #f7f7f7;
+	border-width: 5px;
+	border-style: ridge;
+	border-radius: 5px;
+}
+.dico-divFrame{
+	color: #ffffff;
+	background-color: #dddddd;
+	border-style: outset;
+	border-radius: 5px;
+}
+.dico-img-yey, .dico-img-fra{ /*flag images*/
+	display: block;
+	margin-left: 5px;
+	border-style: ridge;
+	border-radius: 5px;
+}
+.dico-input{
+	width: 100%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}

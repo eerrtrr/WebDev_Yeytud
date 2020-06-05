@@ -4,6 +4,12 @@ var input_yey  = document.querySelector("#input-yey" );
 var output_fra = document.querySelector("#output-fra");
 var output_yey = document.querySelector("#output-yey");
 
+
+
+
+
+
+// ---- dictionnary ----
 var yey = [
 	"good morning",
 	"hello",

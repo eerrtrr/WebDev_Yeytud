@@ -1,42 +1,298 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<title>Yeytud.fr : Dictionnary</title>
-		<meta charset="UTF-8">
-		<meta name="author" content="MELONI Axel (aka eerrtrr), SILVANO Sebastien (aka IAsebsil83), TERRASSON Frederic (aka Terminator9896)">
-		<meta name="description" content="Venez découvrir et apprendre une nouvelle langue créee et animée par des Sciences Antiques">
-		<link href="../css/styles.css" rel="stylesheet" type="text/css">
-	</head>
-	<body>
-		<!-- Modify dictionnary -->
-		<header>
-			<!-- menu options -->
-			<nav>
-				<ul>
-					<li><a href="../index.html">Accueil</a></li>
-					<li><a href="courses.html">Cours</a></li>
-					<li><a href="exercices.html">Exercices</a></li>
-					<li><a href="dictionnary.html">Dictionnaire</a></li>
-					<li><a href="history.html">Histoire</a></li>
-					<li><a href="contact_us.html">Nous contacter</a></li>
-				</ul>
-			</nav>
+<!DOCTYPE html>
+<html lang="en">
 
-			<!-- Redirect to dictionnary editor -->
-			<div style="float:right;">
-				<a href="connection.html">Modifier le dictionnaire</a>
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!--<meta http-equiv="x-ua-compatible" content="ie=edge">-->
+
+        <title>Yeytud.fr</title>
+		<link rel="icon" href="img/animal.ico" />
+		
+        <!-- Font Awesome -->
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,800,600,300,300italic,700' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+
+
+        <!-- Your custom styles (optional) -->
+        <link href="../css/style.css" rel="stylesheet">
+        <link href="../css/dicoStyle.css" rel="stylesheet">
+        
+        
+    </head>
+
+    <body data-spy="scroll" data-target=".navbar-desktop">
+        <!-- Start your project here-->
+        <!--Navbar-->
+
+        <div class='preloader'><div class='loaded'>&nbsp;</div></div>
+
+        <nav class="navbar navbar-fixed-top navbar-light bg-faded">
+        
+            <!--Collapse button-->
+            <div class="container">
+                <a href="#" data-activates="mobile-menu" class="button-collapse right"><i class="fa fa-bars black-text"></i></a>
+
+                <!--Content for large and medium screens-->
+                <div class="navbar-desktop">
+                    <!--Navbar Brand-->
+                    <a class="navbar-brand" href="#home"><img src="../img/yey.png" alt="" /></a>
+                    <!--Links-->
+                    <ul class="nav navbar-nav pull-right hidden-md-down text-uppercase">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../index.html">Home<span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#about">Notre histoire</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#service">Cours</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#team">Dictionnaire</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" target="_blank" href="#!"><i class="fa fa-search fa-lg"></i></a>
+                        </li>
+                    </ul>
+                    
+                </div>
+
+                <!-- Content for mobile devices-->
+                <div class="navbar-mobile">
+
+                    <ul class="side-nav" id="mobile-menu">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#home">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#about">Notre histoire</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#service">Cours</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#portfolio">Dictionnaire</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#!"><i class="fa fa-search fa-lg"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!--/.Navbar-->
+
+
+
+			<!-- Modify dictionnary -->
+
+		<!-- Informations -->
+		<h2 class="dico-title">Dictionnaire</h2>
+		<p class="dico-info">Ici vous pouvez traduire un mot français en yeytud et inversement.</p>
+
+
+
+		<!-- French zone -->
+		<div class="dico-zone">
+
+			<!-- French input -->
+			<div class="dico-divFrame">
+				<input type="text" class="dico-input" id="input-fra" placeholder="Mot en francais">
+				<img src="../img/dictionnary_fra.jpg" class="dico-img-fra">
 			</div>
-		</header>
 
-		<!-- user input -->
-		<input type="text" name="motFr" placeholder="Mot en français" oninput="" id="in">
-		<button type="button" onclick="">Afficher tous le dictionnaire</button>
+			<!-- French output -->
+			<div class="dico-divFrame" id="output-fra">
+				No result found
+			</div>
 
-		<!-- background -->
-		<img src="../images/dictionnary.jpg">
+		</div>
 
+
+
+		<!-- Yeytud zone -->
+		<div class="dico-zone">
+
+			<!-- Yeytud input -->
+			<div class="dico-divFrame">
+				<input type="text" class="dico-input" id="input-yey" placeholder="Mot en yeytud">
+				<img src="../img/dictionnary_yey.png" class="dico-img-yey">
+			</div>
+
+			<!-- Yeytud output -->
+			<div class="dico-divFrame" id="output-yey">
+				Aucun résultat trouvé
+			</div>
+		</div>
+
+        <section id="newsletter" class="newsletter">
+            <div class="container">
+                <div class="row">
+                    <div class="main_newsletter white-text p-y-2 m-t-3">
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="single_newsletter left m-t-1 text-md-left text-sm-center text-xs-center wow zoomIn">
+                                <p>Subscribe to our newsletter to get every Notify</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="single_newsletter text-md-right text-sm-center wow zoomIn">
+                                <div class="md-form input-group">
+                                    <input type="text" class="form-control" placeholder="Search for...">
+                                    <span class="input-group-btn">
+                                        <button class="btn waves-effect waves-red" type="button"><i class="fa fa-send"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!-- End of Newsletter section -->
+
+
+
+        <section id="footer" class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="main_footer_area white-text p-b-3">
+                        <div class="col-md-3">
+                            <div class="single_f_widget p-t-3 wow fadeInUp">
+                                <img src="img/logo.png" alt="" />
+                                <div class="single_f_widget_text">
+                                    <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. 
+                                        The point of using Lorem Ipsum is that it has a more-or-less normal.</p>
+                                    <div class="socail_f_widget">
+                                        <a href="https://www.facebook.com/Yeytud-114629810272240" target="_blank"><i class="fa fa-facebook"></i></a>
+                                        <a href="https://www.instagram.com/yeytud/" target="_blank"><i class="fa fa-instagram"></i></a>
+                                        <a href="https://github.com/eerrtrr/WebDev_Yeytud.git" target="_blank"><i class="fa fa-github"></i></a>
+                                        <a href="https://www.youtube.com" target="_blank"><i class="fa fa-youtube"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="single_f_widget m-t-3 wow fadeInUp">
+                                <h4 class="text-lowercase">Some features</h4>
+                                <div class="single_f_widget_text f_reatures">
+                                    <ul>
+                                        <li><i class="fa fa-check"></i>Lorem ipsum dolor sit amet</li>
+                                        <li><i class="fa fa-check"></i>Aliquam tincidunt cons ectetuer</li>
+                                        <li><i class="fa fa-check"></i>Vestibulum auctor dapibus con</li>
+                                        <li><i class="fa fa-check"></i>Lorem ipsum dolor sit amet auctor dapibus</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="single_f_widget m-t-3 wow fadeInUp">
+                                <h4 class="text-lowercase">Tags</h4>
+                                <div class="single_f_widget_text f_tags">
+                                    <a href="#!">corporate</a>
+                                    <a href="#!">agency</a>
+                                    <a href="#!">portfolio</a>
+                                    <a href="#!">blog</a>
+                                    <a href="#!">elegant</a>
+                                    <a href="#!">professional</a>
+                                    <a href="#!">business</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="single_f_widget m-t-3 wow fadeInUp">
+                                <h4 class="text-lowercase">Flicker Posts</h4>
+                                <div class="single_f_widget_text f_flicker">
+                                    <img src="img/flipcker1.jpg" alt="" /> 
+                                    <img src="img/flipcker2.jpg" alt="" /> 
+                                    <img src="img/flipcker3.jpg" alt="" /> 
+                                    <img src="img/flipcker4.jpg" alt="" /> 
+                                    <img src="img/flipcker3.jpg" alt="" /> 
+                                    <img src="img/flipcker2.jpg" alt="" /> 
+                                    <img src="img/flipcker4.jpg" alt="" /> 
+                                    <img src="img/flipcker1.jpg" alt="" /> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main_coppyright">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="copyright_text m-t-2 text-xs-center">
+                                <p class="wow zoomIn" data-wow-duration="1s">Made with <i class="fa fa-heart"></i> by <a target="_black" href="https://github.com/eerrtrr/WebDev_Yeytud.git"> Axel Meloni - Sébastien Silvano - Fred Terrasson</a> ISEN school WebDev project 2020</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="socail_coppyright text-sm-right m-t-2 text-xs-center wow zoomIn">
+                                <a href="https://www.facebook.com/Yeytud-114629810272240" target="_blank"><i class="fa fa-facebook"></i></a>
+                                <a href="https://www.instagram.com/yeytud/" target="_blank"><i class="fa fa-instagram"></i></a>
+                                <a href="https://github.com/eerrtrr/WebDev_Yeytud.git" target="_blank"><i class="fa fa-github"></i></a>
+                                <a href="https://www.youtube.com" target="_blank"><i class="fa fa-youtube"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+
+
+
+        <!-- /Start your project here-->
+
+
+        <!-- SCRIPTS -->
+        
 		<!-- Dictionnary search motor -->
 		<script language="javascript" src="../js/dictionnary_search.js"></script>
+		
+        <!-- JQuery -->
+        <script type="text/javascript" src="../js/jquery-2.2.3.min.js"></script>
 
-	</body>
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="../js/tether.min.js"></script>
+
+
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="../js/mdb.min.js"></script>
+
+        <!-- Wow js -->
+        <script type="text/javascript" src="../js/wow.min.js"></script>
+
+        <!-- Mixitup js -->
+        <script type="text/javascript" src="../js/jquery.mixitup.min.js"></script>
+
+        <!-- Magnific-popup js -->
+        <script type="text/javascript" src="../js/jquery.magnific-popup.js"></script>
+
+        <!-- accordion js -->
+        <script type="text/javascript" src="../js/accordion.js"></script>
+
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="../js/materialize.js"></script>
+
+        <script>
+            $(".button-collapse").sideNav();
+        </script>
+
+        <!-- wow js active -->
+        <script type="text/javascript">
+            new WOW().init();
+        </script>
+
+        <script type="text/javascript" src="../js/plugins.js"></script>
+        <script type="text/javascript" src="../js/main.js"></script>
+
+
+    </body>
+
 </html>

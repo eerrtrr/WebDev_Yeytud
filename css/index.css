@@ -1,0 +1,62 @@
+/* top banner */
+.topBanner{
+	padding: 80px;
+	text-align: center;
+	background-image: url('../images/index_topBanner.jpg');
+	background-repeat: no-repeat;
+	display: block;
+	color: #0b0;
+}
+.topBanner-title{
+	font-size: 70px;
+	margin-bottom: 1em;
+}
+.topBanner-text{
+	font-size: 20px;
+	margin-bottom: 1em;
+	text-shadow:
+		 1px  0px  0px #000,
+		-1px  0px  0px #000,
+		 0px  1px  0px #000,
+		 0px -1px  0px #000;
+}
+
+/* presentation */
+.presentation{
+	margin-top: 20px;
+	padding: 40px 40px;
+}
+.presentation-title{
+	text-align: end;
+	font-weight: bold;
+	float: middle;
+	margin-right: 36%;
+}
+.presentation-text{
+	text-align: center;
+	padding: 50px 50px;
+}
+.presentation-image{
+	float:left;
+	margin-top: -5%;
+}
+
+/* another */
+.another{
+	margin-top: 20px;
+	padding: 40px 40px;
+}
+.another-title{
+	text-align: end;
+	font-weight: bold;
+	float: middle;
+	margin-right: 36%;
+}
+.another-text{
+	text-align: center;
+	padding: 50px 50px;
+}
+.another-image{
+	float:left;
+	margin-top: -5%;
+}

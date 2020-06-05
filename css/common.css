@@ -1,0 +1,95 @@
+/* global parameters */
+*{
+	box-sizing: border-box;
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0;
+}
+
+
+
+/* yeytud font */
+@font-face{
+    font-family: "Yeytud";
+    src: url('polices/Yeytud.ttf') format("truetype");
+}
+
+
+
+/* header */
+/* navbar */
+.navbar{
+	overflow: hidden;
+	background-color: #ddd;
+	position: sticky;
+	position: -webkit-sticky;
+	top: 0;
+}
+.navbar-home{
+	float: left;
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 14px 20px;
+	text-decoration: none;
+}
+.navbar-item{
+	float: right;
+	display: block;
+	color: #000;
+	margin-top: 1.2%;
+	text-align: center;
+	padding: 14px 20px;
+	text-decoration: none;
+}
+.navbar-home:hover{
+	background-color: #eee;
+	color: black;
+}
+.navbar-item:hover{
+	color: #0f0;
+}
+
+
+
+/* Footer */
+.footer{
+	padding: 5% 5%;
+	color: #fff;
+	background-color: #333;
+}
+.footer-text{
+	color: #ddd;
+	display: inline-block;
+	text-align: start;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 20%;
+	font-size: 15px;
+}
+.footer-social{
+	float: right;
+	width: 25%;
+}
+.footer-social-link{
+	padding: 1% 1%;
+}
+.footer-link{
+	text-align: center;
+	color: #0f0;
+}
+.footer-credit{
+	text-align: center;
+	padding: 3% 3%;
+	font-size: 15px;
+	width: 70%;
+}
+
+
+
+/* Responsive layout - when the screen is less than 400px wide, make the navigation links stack on top of each other instead of next to each other */
+@media screen and (max-width: 400px){
+	.navbar-home, .navbar-item{
+		float: none;
+		width: 100%;
+	}
+}

@@ -47,10 +47,8 @@ var ref = [
 
 // ---- modification detection ----
 function checkModif(){
-	if(input_fra.value != "")
-		searchFromFra();
-	if(input_yey.value != "")
-		searchFromYey();
+	searchFromFra();
+	searchFromYey();
 }
 setInterval(checkModif, 100);
 
@@ -61,35 +59,37 @@ setInterval(checkModif, 100);
 
 // ---- functions ----
 function searchFromFra(){
-	output_yey.innerHTML = "";
+	var output_text = "No result found";
 	for(var f=0; f < fra.length; f++){
 
 		//find a corresponding french word
-		if(f == input_fra.value){
-			
+		if(fra[f] == input_fra.value){
+			output_text = "";
+
 			//search for all references in yeytud
-			for(var r in ref){
-				if(r[0] == f)
-					output_yey.innerHTML += yey[ r[1] ] + "<br>";
+			for(var r=0; r < ref.length; r++){
+				if(ref[r][0] == f)
+					output_text += yey[ ref[r][1] ] + "<br>";
 			}
 		}
 	}
-	output_yey.innerHTML = "No result found";
+	output_fra.innerHTML = output_text;
 }
 
 function searchFromYey(){
-	output_fra.innerHTML = "";
+	var output_text = "Aucun résultat trouvé";
 	for(var y=0; y < yey.length; y++){
 
 		//find a corresponding yeytud word
-		if(y == input_yey.value){
+		if(yey[y] == input_yey.value){
+			output_text = "";
 
 			//search for all references in french
-			for(var r in ref){
-				if(r[1] == y)
-					output_fra.innerHTML += fra[ r[0] ] + "<br>";
+			for(var r=0; r < ref.length; r++){
+				if(ref[r][1] == y)
+					output_text += fra[ ref[r][0] ] + "<br>";
 			}
 		}
 	}
-	output_fra.innerHTML = "Aucun résultat trouvé";
+	output_yey.innerHTML = output_text;
 }

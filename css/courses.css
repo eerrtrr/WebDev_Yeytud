@@ -9,9 +9,12 @@
         
       
 }
-
-.images
-{
+.course-link{
+	color: #9df;
+	font-size: 20px;
+	text-align: center;
+}
+.images{
     width: 100%;
     display: flex;
     border: black;

@@ -1,3 +1,22 @@
 .something{
 	text-align:center;
+        width: 50%;
+        border: black;
+        border-style: double;
+        margin-bottom: 5px;
+        margin-top: 10 px;
+        
+        
+      
 }
+
+.images
+{
+    width: 100%;
+    display: flex;
+    border: black;
+    
+}
+
+
+

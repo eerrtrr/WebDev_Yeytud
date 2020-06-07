@@ -65,7 +65,7 @@ setInterval(checkModif, 100);
 
 // ---- functions ----
 function searchFromFra(){
-	var output_text = "No result found";
+	var output_text = "wert ne";
 	for(var f=0; f < fra.length; f++){
 
 		//find a corresponding french word

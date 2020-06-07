@@ -40,7 +40,7 @@ a{
 }
 
 .navbar-items{
-	margin-right: 10px;
+	margin-right: 20px;
 }
 
 
@@ -59,7 +59,7 @@ a{
 	color: black;
 }
 .navbar-item:hover{
-	color: #ec4848;
+	color: #01D758;
 }
 
 
@@ -89,7 +89,7 @@ a{
 }
 .footer-link{
 	text-align: center;
-	color: #ec4848;
+	color: #01D758;
 }
 .footer-credit{
 	text-align: center;

@@ -1,24 +1,27 @@
 /* top banner */
 .topBanner{
-	padding: 80px;
 	text-align: center;
-	background-image: url('../images/index_topBanner.jpg');
-	background-repeat: no-repeat;
-	display: block;
-	color: #0b0;
+	background: url('../images/index_topBanner.jpg') no-repeat center center fixed;
+	color: #499dc6;
+ 	min-height: 800px; 
+  	background-position: center center;
+  	background-repeat: no-repeat;
+  	background-size: cover;
+    display: flex; 
+  	flex-direction: column; 
+  	justify-content: center; 
 }
 .topBanner-title{
-	font-size: 70px;
-	margin-bottom: 1em;
+    font-weight: 1000;
+    letter-spacing: 10px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 5rem;
 }
 .topBanner-text{
-	font-size: 20px;
-	margin-bottom: 1em;
-	text-shadow:
-		 1px  0px  0px #000,
-		-1px  0px  0px #000,
-		 0px  1px  0px #000,
-		 0px -1px  0px #000;
+    font-weight: 600;
+    letter-spacing: 5px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
 }
 
 /* presentation */
